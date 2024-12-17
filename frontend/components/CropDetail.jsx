@@ -1,24 +1,48 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, ScrollView, Button, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useCart } from '../pages/CartContext'; // Adjust the import path as needed
+import { UserContext } from '../contexts/UserContext'; // Import UserContext for user information
 
 export default function CropDetail({ route }) {
   const { item, modalPrice } = route.params; // Destructure modalPrice from route.params
   const { addToCart } = useCart();
+  const { user } = useContext(UserContext); // Get user information from context
 
-  // Retrieve crop details from cropsData
-  const details = {
-    description: item.description,
-    weather: item.weather,
-    season: item.season,
-    temperature: item.temperature,
-  };
+  const BACKEND_URL = "http://192.168.1.203:5000"; // Update with your backend URL
 
-  const handleAddToCart = () => {
-    const itemWithPrice = { ...item, price: modalPrice }; // Assign modalPrice to price
-    console.log('Adding to Cart:', itemWithPrice); // Debugging line
-    addToCart(itemWithPrice);
+  const handleAddToCart = async () => {
+    try {
+      // Ensure item.image is correctly formatted
+      const imageUri = item.image.uri ? item.image.uri : item.image;
+
+      const response = await fetch(`${BACKEND_URL}/cart/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id, // Include user ID
+          item: {
+            itemId: item.id,
+            name: item.name,
+            price: modalPrice || 0, // Ensure a default price if modalPrice is not available
+            quantity: 1,
+            image: imageUri, // Ensure image is correctly passed
+          },
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        addToCart({ ...item, price: modalPrice || 0 }); // Update local cart
+        console.log("Item added to cart:", result.cart); // Log added cart
+      } else {
+        console.error("Error adding item to cart:", result.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -30,7 +54,7 @@ export default function CropDetail({ route }) {
       </Text>
 
       <View style={styles.separator} />
-      <Text style={styles.description}>{details.description}</Text>
+      <Text style={styles.description}>{item.description}</Text>
 
       <View style={styles.separator} />
 
@@ -38,20 +62,20 @@ export default function CropDetail({ route }) {
         <Text style={styles.sectionTitle}>Crop Details:</Text>
         <View style={styles.detailRow}>
           <Icon name="weather-sunny" size={24} color="#555" />
-          <Text style={styles.detail}>Weather: {details.weather}</Text>
+          <Text style={styles.detail}>Weather: {item.weather}</Text>
         </View>
         <View style={styles.detailRow}>
           <Icon name="calendar" size={24} color="#555" />
-          <Text style={styles.detail}>Season: {details.season}</Text>
+          <Text style={styles.detail}>Season: {item.season}</Text>
         </View>
         <View style={styles.detailRow}>
           <Icon name="thermometer" size={24} color="#555" />
-          <Text style={styles.detail}>Temperature: {details.temperature}</Text>
+          <Text style={styles.detail}>Temperature: {item.temperature}</Text>
         </View>
       </View>
 
       <View style={styles.separator} />
-      
+
       {/* Adjusted the style of the button container to ensure visibility */}
       <View style={styles.buttonContainer}>
         <Button title="Add to Cart" onPress={handleAddToCart} />
@@ -108,8 +132,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: '#555',
   },
-  
-  // Added style for button container
   buttonContainer: {
     marginTop: 16, // Ensure space between content and button
     marginBottom: 16, // Ensure space at the bottom

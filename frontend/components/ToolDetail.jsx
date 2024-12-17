@@ -1,17 +1,54 @@
-import React from 'react';
+// File: src/components/ToolDetail.js
+
+import React, { useContext } from 'react';
 import { View, Text, Image, ScrollView, Button, StyleSheet } from 'react-native';
-import { useCart } from '../pages/CartContext'; // Adjust the import path as needed
+import { useCart } from '../pages/CartContext';
+import { UserContext } from '../contexts/UserContext';
 
 export default function ToolDetail({ route }) {
   const { item } = route.params;
   const { addToCart } = useCart();
+  const { user } = useContext(UserContext);
 
-  const handleAddToCart = () => {
+  const BACKEND_URL = "http://192.168.1.203:5000";
+
+  const handleAddToCart = async () => {
     const itemWithNumericPrice = {
       ...item,
-      price: parseFloat(item.price.replace(',', '')), // Convert "5,000" to 5000
+      price: parseFloat(item.price.replace(',', '')), // Convert price to numeric value
+      quantity: 1,
     };
-    addToCart(itemWithNumericPrice);
+
+    try {
+      const imageUri = item.image.uri ? item.image.uri : item.image;
+
+      const response = await fetch(`${BACKEND_URL}/cart/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          item: {
+            itemId: item.id,
+            name: item.name,
+            price: itemWithNumericPrice.price,
+            quantity: itemWithNumericPrice.quantity,
+            image: imageUri,
+          },
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        addToCart(itemWithNumericPrice);
+        console.log("Item added to cart:", result.cart);
+      } else {
+        console.error("Error adding item to cart:", result.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -20,9 +57,7 @@ export default function ToolDetail({ route }) {
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.price}>₹{item.price}</Text>
       <View style={styles.divider} />
-      <Text style={styles.description}>
-        {item.description}
-      </Text>
+      <Text style={styles.description}>{item.description}</Text>
       <View style={styles.divider} />
       <View style={styles.footer}>
         <Text style={styles.footerPrice}>₹{item.price}</Text>

@@ -13,7 +13,7 @@ export default function CartScreen() {
       ) : (
         <FlatList
           data={cartItems}
-          keyExtractor={(item) => item.id.toString()} // Ensure the key is unique and a string
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.cartItem}>
               <Image source={item.image} style={styles.cartItemImage} />
@@ -28,14 +28,14 @@ export default function CartScreen() {
               </View>
               <View style={styles.quantityControls}>
                 <TouchableOpacity
-                  onPress={() => removeFromCart(item.id)}
+                  onPress={() => removeFromCart(item.id)} // Decrease quantity or remove item
                   style={styles.quantityButton}
                 >
                   <Text style={styles.quantityButtonText}>-</Text>
                 </TouchableOpacity>
                 <Text style={styles.quantity}>{item.quantity}</Text>
                 <TouchableOpacity
-                  onPress={() => addToCart(item)}
+                  onPress={() => addToCart(item)} // Increase quantity
                   style={styles.quantityButton}
                 >
                   <Text style={styles.quantityButtonText}>+</Text>

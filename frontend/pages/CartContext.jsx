@@ -6,22 +6,29 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (item) => {
-    // Check if item is already in the cart
     const existingItemIndex = cartItems.findIndex(cartItem => cartItem.id === item.id);
 
     if (existingItemIndex !== -1) {
-      // If item exists, update the quantity
       const updatedItems = [...cartItems];
       updatedItems[existingItemIndex].quantity += 1; // Increment quantity
       setCartItems(updatedItems);
     } else {
-      // If item does not exist, add it to the cart with quantity 1
-      setCartItems([...cartItems, { ...item, quantity: 1 }]); // Assign price directly from the item
+      setCartItems([...cartItems, { ...item, quantity: 1 }]); // Add with quantity 1
     }
   };
 
   const removeFromCart = (itemId) => {
-    const updatedItems = cartItems.filter(cartItem => cartItem.id !== itemId);
+    const updatedItems = cartItems.map(cartItem => {
+      if (cartItem.id === itemId) {
+        if (cartItem.quantity > 1) {
+          return { ...cartItem, quantity: cartItem.quantity - 1 }; // Decrease quantity by 1
+        } else {
+          return null; // Remove item if quantity is 1
+        }
+      }
+      return cartItem;
+    }).filter(item => item !== null); // Remove null values from cart (if item is to be removed completely)
+
     setCartItems(updatedItems);
   };
 

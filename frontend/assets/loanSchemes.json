@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Kisan Gold Scheme",
+    "purpose": "Production and investment credit for agriculture, rural housing, and consumption needs.",
+    "eligibility": "Existing good agricultural landowners with a clear record or new farmers with satisfactory dealings for 2 years.",
+    "loan_amount": "Up to ₹10 Crore",
+    "repayment_period": "12 months for working capital; up to 9 years for housing loans.",
+    "security": "Mortgage of land valued at 200% of the loan amount."
+  },
+  {
+    "name": "Tractor and Farm Machinery Loan",
+    "purpose": "Purchase of tractors, power tillers, farm machinery, and renovation of existing equipment.",
+    "eligibility": "Farmers with sufficient landholding; no minimum landholding for other machinery.",
+    "loan_amount": "Need-based; up to ₹2 lakh for second-hand tractors.",
+    "repayment_period": "5-9 years based on asset type.",
+    "insurance": "Mandatory for tractors under PNB Farmers' Welfare Fund."
+  },
+  {
+    "name": "Milch Animal Maintenance Loan",
+    "purpose": "Purchase and maintenance of high-yielding milch animals, shed construction, and equipment purchase.",
+    "eligibility": "Farmers with experience in dairy farming and sufficient fodder supply.",
+    "loan_amount": "Need-based for a minimum of 2 animals.",
+    "repayment_period": "Up to 5 years depending on lactation cycle."
+  },
+  {
+    "name": "PNB Swarnim Yojana",
+    "purpose": "Short-term credit for crop production, farm machinery, repayment of high-interest loans, etc.",
+    "eligibility": "Farmers, tenant farmers, sharecroppers, and agricultural entrepreneurs.",
+    "loan_amount": "Up to ₹10 lakh per borrower.",
+    "repayment_period": "Within 12 months of disbursement."
+  },
+  {
+    "name": "PNB Krishi Card (Kisan Credit Card)",
+    "purpose": "Comprehensive credit support for cultivation, household needs, and farm maintenance.",
+    "eligibility": "Farmers with recorded occupancy rights, tenants, sharecroppers, or JLGs.",
+    "loan_amount": "Up to ₹50 lakh.",
+    "repayment_period": "Short-term and long-term limits calculated based on need and usage."
+  },
+  {
+    "name": "Cold Storage Loan",
+    "purpose": "Construction and maintenance of cold storage facilities for agricultural produce.",
+    "eligibility": "Farmers or groups with a viable project proposal.",
+    "loan_amount": "Project-based, need-specific.",
+    "repayment_period": "Project-dependent, usually within 7-10 years."
+  },
+  {
+    "name": "Horticulture Development Loan",
+    "purpose": "Cultivation of fruits, vegetables, and other horticultural crops.",
+    "eligibility": "Farmers with adequate land and project viability.",
+    "loan_amount": "Need-based funding for horticulture projects.",
+    "repayment_period": "5-7 years."
+  },
+  {
+    "name": "Solar Pump Loan",
+    "purpose": "Installation of solar-powered irrigation pumps.",
+    "eligibility": "Farmers with sufficient landholding and water availability.",
+    "loan_amount": "Need-based with subsidy options available.",
+    "repayment_period": "Up to 10 years."
+  },
+  {
+    "name": "Agricultural Infrastructure Loan",
+    "purpose": "Creation of agricultural infrastructure like warehouses, irrigation systems, and transport vehicles.",
+    "eligibility": "Individual farmers or farmer groups with feasible project plans.",
+    "loan_amount": "Project-specific.",
+    "repayment_period": "5-12 years."
+  },
+  {
+    "name": "Fisheries Loan",
+    "purpose": "Fish farming, aquaculture, and related activities.",
+    "eligibility": "Farmers and individuals engaged in fisheries.",
+    "loan_amount": "Need-based funding.",
+    "repayment_period": "3-5 years."
+  }
+]

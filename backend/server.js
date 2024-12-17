@@ -1,7 +1,8 @@
-require('dotenv').config(); // Load environment variables from .env file
+require("dotenv").config(); // Load environment variables from .env
 const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
+const cartRoutes = require("./routes/cart"); // Import cart routes
 
 const app = express();
 
@@ -13,6 +14,9 @@ connectDB();
 
 // Routes for authentication
 app.use("/auth", authRoutes);
+
+// Routes for cart operations
+app.use("/cart", cartRoutes);
 
 // Root Endpoint
 app.get("/", (req, res) => {

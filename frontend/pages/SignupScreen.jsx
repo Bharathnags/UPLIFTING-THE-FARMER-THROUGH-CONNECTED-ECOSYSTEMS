@@ -28,14 +28,14 @@ const SignupScreen = () => {
         body: JSON.stringify({
           username,
           email,
-          mobile, // Include mobile in request body
+          mobile,
           password,
         }),
       });
       const result = await response.json();
       if (response.ok) {
         setUser(result.user);
-        navigation.navigate("Profile"); // Navigate to Profile screen after successful signup
+        navigation.navigate("Main", { screen: "Profile" });
       } else {
         setError(result.message);
       }
@@ -44,6 +44,7 @@ const SignupScreen = () => {
       console.error("Error:", error);
     }
   };
+  
 
   return (
     <View style={styles.container}>

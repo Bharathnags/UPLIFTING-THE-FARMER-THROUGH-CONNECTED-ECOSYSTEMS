@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { View, Text, StyleSheet, ActivityIndicator, FlatList, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import mandiData from '../assets/mandi.json'; // Adjust path as necessary
 
 const RenderItem = React.memo(({ item }) => (
   <View style={styles.card}>
@@ -23,10 +22,12 @@ const MarketPrices = () => {
   const [selectedState, setSelectedState] = useState('');
 
   const ITEMS_PER_PAGE = 20;
+  const API_KEY = "579b464db66ec23bdd0000017bcd21f7b71b45a973ce574738e88c70";
+  const API_URL = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${API_KEY}&format=json&offset=${(page-1)*ITEMS_PER_PAGE}&limit=${ITEMS_PER_PAGE}`;
 
   useEffect(() => {
-    loadMoreData();
-  }, []);
+    fetchMarketPrices();
+  }, [page]);
 
   useEffect(() => {
     let filtered = prices;
@@ -44,28 +45,27 @@ const MarketPrices = () => {
     setFilteredPrices(filtered);
   }, [searchText, selectedState, prices]);
 
-  const loadMoreData = () => {
-    if (!hasMore) return;
+  const fetchMarketPrices = async () => {
+    try {
+      const response = await fetch(API_URL);
+      const data = await response.json();
 
-    const start = (page - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    const newPrices = mandiData.records.slice(start, end).filter(
-      record => record.commodity && record.state
-    );
+      if (data.records.length === 0) {
+        setHasMore(false);
+      } else {
+        setPrices((prevPrices) => [...prevPrices, ...data.records]);
+        setPage((prevPage) => prevPage + 1);
+      }
 
-    if (newPrices.length === 0) {
-      setHasMore(false);
-    } else {
-      setPrices((prevPrices) => [...prevPrices, ...newPrices]);
-      setPage((prevPage) => prevPage + 1);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
     }
-
-    setLoading(false);
   };
 
   const keyExtractor = (item, index) => item.arrival_date + index.toString();
 
-  const uniqueStates = [...new Set(mandiData.records.map(record => record.state))];
+  const uniqueStates = [...new Set(prices.map(record => record.state))];
 
   return (
     <View style={styles.container}>
@@ -93,7 +93,7 @@ const MarketPrices = () => {
           data={filteredPrices}
           renderItem={({ item }) => <RenderItem item={item} />}
           keyExtractor={keyExtractor}
-          onEndReached={loadMoreData}
+          onEndReached={fetchMarketPrices}
           onEndReachedThreshold={0.5}
         />
       )}
