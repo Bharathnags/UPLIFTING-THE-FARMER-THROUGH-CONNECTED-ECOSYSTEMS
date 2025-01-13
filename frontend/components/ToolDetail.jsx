@@ -10,7 +10,7 @@ export default function ToolDetail({ route }) {
   const { addToCart } = useCart();
   const { user } = useContext(UserContext);
 
-  const BACKEND_URL = "http://192.168.1.203:5000";
+  const BACKEND_URL = "http://10.0.2.2:5000";
 
   const handleAddToCart = async () => {
     const itemWithNumericPrice = {

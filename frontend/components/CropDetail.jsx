@@ -9,7 +9,7 @@ export default function CropDetail({ route }) {
   const { addToCart } = useCart();
   const { user } = useContext(UserContext); // Get user information from context
 
-  const BACKEND_URL = "http://192.168.1.203:5000"; // Update with your backend URL
+  const BACKEND_URL = "http://10.0.2.2:5000"; // Update with your backend URL
 
   const handleAddToCart = async () => {
     try {

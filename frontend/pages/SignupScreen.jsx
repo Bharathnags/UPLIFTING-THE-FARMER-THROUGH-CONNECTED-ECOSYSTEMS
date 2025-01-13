@@ -16,7 +16,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null); // State to handle errors
 
-  const BACKEND_URL = "http://192.168.1.203:5000"; // Update with your backend URL
+  const BACKEND_URL = "http://10.0.2.2:5000"; // Update with your backend URL
 
   const handleSignup = async () => {
     try {
